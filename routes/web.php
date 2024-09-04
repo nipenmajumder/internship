@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TodoController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -30,7 +32,6 @@ Route::get('/', function () {
 });
 
 Route::get('/set-cookie', function () {
-//    $cookie = cookie('user_name', 'John Doe', 60); // Name, Value, Minutes
     $userData = [
         'name' => 'John Doe',
         'email' => 'john@example.com'
@@ -39,9 +40,11 @@ Route::get('/set-cookie', function () {
     return response('Cookie has been set')->cookie($cookie);
 });
 
-Route::get('/get-cookie',function (\Illuminate\Http\Request $request){
-    dd($request->cookie('user_data' ));
+Route::get('/get-cookie', function (Request $request) {
+    dd($request->cookie('user_data'));
 });
+
+Route::resource('todo', TodoController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -53,4 +56,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
