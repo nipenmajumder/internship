@@ -47,6 +47,9 @@
                                     <h2 class="text-xl font-semibold mb-4">Add New Todo</h2>
                                     <form action="{{ route('todo.store') }}" method="POST" class="mb-4">
                                         @csrf
+                                        {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+
+                                        
                                         <div class="flex items-center">
                                             <input type="text" name="todo"
                                                    class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"

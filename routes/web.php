@@ -28,6 +28,7 @@ Route::get('/', function () {
     $foo = session('foo');
     $baz = Session::get('baz');
     $hello = Session::get('hello');
+    // dd($foo, $baz, $hello);
     return view('welcome');
 });
 
@@ -37,14 +38,29 @@ Route::get('/set-cookie', function () {
         'email' => 'john@example.com'
     ];
     $cookie = cookie('user_data', serialize($userData));
+    //get cookie data
+    // $cookieData = unserialize($cookie->getValue());
+
+    // dd( $cookieData);
     return response('Cookie has been set')->cookie($cookie);
 });
 
 Route::get('/get-cookie', function (Request $request) {
-    dd($request->cookie('user_data'));
+    dd(unserialize($request->cookie('user_data')));
 });
 
 Route::resource('todo', TodoController::class);
+
+#Alternative to the above code, you can use the following code to achieve the same result:
+// Route::get('todo/{id}', [TodoController::class, 'show'])->name('todo.show');
+// Route::get('todo', [TodoController::class, 'index'])->name('todo.index');
+// Route::get('todo/create', [TodoController::class, 'create'])->name('todo.create');
+// Route::post('todo', [TodoController::class, 'store'])->name('todo.store');
+// Route::get('todo/{id}/edit', [TodoController::class, 'edit'])->name('todo.edit');
+// Route::put('todo/{id}', [TodoController::class, 'update'])->name('todo.update');
+// Route::delete('todo/{id}', [TodoController::class, 'destroy'])->name('todo.destroy');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -55,5 +71,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// check middleware 
+
+Route::get('check-middleware', function () {
+    return 'You are authorized to access this page';
+})->middleware('idCheck');
 
 require __DIR__ . '/auth.php';

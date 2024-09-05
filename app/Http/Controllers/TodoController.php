@@ -45,6 +45,11 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
+        // get csrf token
+        // $csrf = $request->session()->token();
+
+        // dd(csrf_token(), $csrf);
+
         $todos = Session::get('todos') ?? [];
         $todos[] = $request->todo;
         Session::put('todos', $todos);
